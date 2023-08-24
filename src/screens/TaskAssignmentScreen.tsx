@@ -1,43 +1,64 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { TaskDetails } from '../api/types'; // Import the generated API types
+import { View, Text, StyleSheet } from 'react-native';
+import { Task } from '../types/TaskTypes';
+import { getTasks } from '../apis/TaskApi';
 
 const TaskAssignmentScreen: React.FC = () => {
-  const [tasks, setTasks] = useState<TaskDetails[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    // Fetch tasks from the backend API
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch('/tasks');
-        const data = await response.json();
-        setTasks(data);
-      } catch (error) {
-        console.error('Error fetching tasks:', error);
-      }
-    };
-
     fetchTasks();
   }, []);
 
+  const fetchTasks = async () => {
+    try {
+      const response = await getTasks();
+      setTasks(response);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    }
+  };
+
   return (
-    <View>
-      <Text>Task Assignment Screen</Text>
-      <FlatList
-        data={tasks}
-        keyExtractor={(task) => task.taskId}
-        renderItem={({ item }) => (
-          <View>
-            <Text>Task ID: {item.taskId}</Text>
-            <Text>Assigned To: {item.assignedTo}</Text>
-            <Text>Status: {item.status}</Text>
-            <Text>Comments: {item.comments}</Text>
-          </View>
-        )}
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>Task Assignment</Text>
+      {tasks.map((task) => (
+        <View key={task.taskId} style={styles.taskContainer}>
+          <Text style={styles.taskAssignedTo}>{task.assignedTo}</Text>
+          <Text style={styles.taskStatus}>{task.status}</Text>
+          <Text style={styles.taskComments}>{task.comments}</Text>
+        </View>
+      ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  taskContainer: {
+    marginBottom: 12,
+  },
+  taskAssignedTo: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  taskStatus: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  taskComments: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default TaskAssignmentScreen;
