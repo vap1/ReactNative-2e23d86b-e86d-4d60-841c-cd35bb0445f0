@@ -13,9 +13,10 @@ export interface EmployeeResponse {
 }
 
 export interface EmployeeRequest {
+  employee: Employee;
+}
+
+export interface EmployeeUpdateRequest {
   employeeId: string;
-  name: string;
-  contactInfo: string;
-  role: string;
-  permissions: string;
+  updatedEmployee: Employee;
 }
