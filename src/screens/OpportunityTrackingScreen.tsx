@@ -4,11 +4,7 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Opportunity } from '../types/OpportunityTypes';
 import { getOpportunities } from '../apis/OpportunityApi';
 
-interface OpportunityTrackingScreenProps {
-  // Add any necessary props here
-}
-
-const OpportunityTrackingScreen: React.FC<OpportunityTrackingScreenProps> = () => {
+const OpportunityTrackingScreen: React.FC = () => {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
 
   useEffect(() => {
@@ -37,7 +33,6 @@ const OpportunityTrackingScreen: React.FC<OpportunityTrackingScreenProps> = () =
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Opportunity Tracking</Text>
       <FlatList
         data={opportunities}
         renderItem={renderOpportunity}
@@ -52,33 +47,28 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
   opportunityContainer: {
     marginBottom: 12,
   },
   opportunityId: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   opportunityLeadId: {
-    fontSize: 16,
+    fontSize: 14,
+    color: 'gray',
   },
   opportunityAssignedTo: {
-    fontSize: 16,
+    fontSize: 14,
   },
   opportunityStatus: {
-    fontSize: 16,
-    fontStyle: 'italic',
+    fontSize: 14,
   },
   opportunityNotes: {
-    fontSize: 16,
+    fontSize: 14,
   },
   opportunityDocuments: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });
 
