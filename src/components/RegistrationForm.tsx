@@ -3,17 +3,33 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 
 interface RegistrationFormProps {
-  onRegister: (username: string, password: string, email: string, role: string) => void;
+  onSubmit: (username: string, password: string, email: string, role: string) => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister }) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
 
-  const handleRegister = () => {
-    onRegister(username, password, email, role);
+  const handleUsernameChange = (text: string) => {
+    setUsername(text);
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+  };
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+  };
+
+  const handleRoleChange = (text: string) => {
+    setRole(text);
+  };
+
+  const handleSubmit = () => {
+    onSubmit(username, password, email, role);
   };
 
   return (
@@ -22,28 +38,28 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister }) => {
         style={styles.input}
         placeholder="Username"
         value={username}
-        onChangeText={setUsername}
+        onChangeText={handleUsernameChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={setPassword}
+        onChangeText={handlePasswordChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleEmailChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Role"
         value={role}
-        onChangeText={setRole}
+        onChangeText={handleRoleChange}
       />
-      <Button title="Register" onPress={handleRegister} />
+      <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
