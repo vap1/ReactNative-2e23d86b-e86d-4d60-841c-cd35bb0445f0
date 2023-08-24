@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { Employee } from '../models/Employee';
-import { getEmployees } from '../api/employees';
+import { View, Text, StyleSheet } from 'react-native';
+import { Employee } from '../types/EmployeeTypes';
+import { getEmployees } from '../apis/EmployeeApi';
 
 const EmployeeManagementScreen: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -14,31 +14,51 @@ const EmployeeManagementScreen: React.FC = () => {
   const fetchEmployees = async () => {
     try {
       const response = await getEmployees();
-      setEmployees(response.data);
+      setEmployees(response);
     } catch (error) {
       console.error('Error fetching employees:', error);
     }
   };
 
-  const renderEmployeeItem = ({ item }: { item: Employee }) => (
-    <View>
-      <Text>{item.name}</Text>
-      <Text>{item.contactInfo}</Text>
-      <Text>{item.role}</Text>
-      {/* Add more employee details here */}
-    </View>
-  );
-
   return (
-    <View>
-      <Text>Employee Management</Text>
-      <FlatList
-        data={employees}
-        renderItem={renderEmployeeItem}
-        keyExtractor={(item) => item.employeeId}
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>Employee Management</Text>
+      {employees.map((employee) => (
+        <View key={employee.employeeId} style={styles.employeeContainer}>
+          <Text style={styles.employeeName}>{employee.name}</Text>
+          <Text style={styles.employeeContact}>{employee.contactInfo}</Text>
+          <Text style={styles.employeeRole}>{employee.role}</Text>
+        </View>
+      ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  employeeContainer: {
+    marginBottom: 12,
+  },
+  employeeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  employeeContact: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  employeeRole: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default EmployeeManagementScreen;
