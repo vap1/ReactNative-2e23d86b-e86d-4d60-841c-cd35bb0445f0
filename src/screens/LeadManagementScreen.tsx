@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Lead } from '../types/LeadTypes';
 import { getLeads } from '../apis/LeadApi';
 
@@ -20,24 +20,17 @@ const LeadManagementScreen: React.FC = () => {
     }
   };
 
-  const renderLead = ({ item }: { item: Lead }) => (
-    <View style={styles.leadContainer}>
-      <Text style={styles.leadId}>{item.leadId}</Text>
-      <Text style={styles.leadContact}>{item.contactDetails}</Text>
-      <Text style={styles.leadInfo}>{item.relevantInfo}</Text>
-      <Text style={styles.leadAssignedTo}>{item.assignedTo}</Text>
-      <Text style={styles.leadStatus}>{item.status}</Text>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Lead Management</Text>
-      <FlatList
-        data={leads}
-        renderItem={renderLead}
-        keyExtractor={(item) => item.leadId}
-      />
+      {leads.map((lead) => (
+        <View key={lead.leadId} style={styles.leadContainer}>
+          <Text style={styles.leadContact}>{lead.contactDetails}</Text>
+          <Text style={styles.leadInfo}>{lead.relevantInfo}</Text>
+          <Text style={styles.leadAssignedTo}>{lead.assignedTo}</Text>
+          <Text style={styles.leadStatus}>{lead.status}</Text>
+        </View>
+      ))}
     </View>
   );
 };
@@ -55,22 +48,19 @@ const styles = StyleSheet.create({
   leadContainer: {
     marginBottom: 16,
   },
-  leadId: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
   leadContact: {
     fontSize: 16,
+    fontWeight: 'bold',
   },
   leadInfo: {
-    fontSize: 16,
+    fontSize: 14,
+    color: 'gray',
   },
   leadAssignedTo: {
-    fontSize: 16,
+    fontSize: 14,
   },
   leadStatus: {
-    fontSize: 16,
-    fontStyle: 'italic',
+    fontSize: 14,
   },
 });
 
