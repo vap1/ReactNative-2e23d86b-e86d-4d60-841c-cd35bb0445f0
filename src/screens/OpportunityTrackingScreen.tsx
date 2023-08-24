@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   opportunityContainer: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   opportunityId: {
     fontSize: 16,
