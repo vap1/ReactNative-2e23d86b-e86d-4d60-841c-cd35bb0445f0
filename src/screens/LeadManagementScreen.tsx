@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { Lead } from '../models/Lead';
-import { getLeads } from '../api/leads';
+import { View, Text, StyleSheet } from 'react-native';
+import { Lead } from '../types/LeadTypes';
+import { getLeads } from '../apis/LeadApi';
 
 const LeadManagementScreen: React.FC = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -14,30 +14,56 @@ const LeadManagementScreen: React.FC = () => {
   const fetchLeads = async () => {
     try {
       const response = await getLeads();
-      setLeads(response.data);
+      setLeads(response);
     } catch (error) {
       console.error('Error fetching leads:', error);
     }
   };
 
-  const renderLeadItem = ({ item }: { item: Lead }) => (
-    <View>
-      <Text>{item.name}</Text>
-      <Text>{item.contactInfo}</Text>
-      {/* Render other lead details */}
-    </View>
-  );
-
   return (
-    <View>
-      <Text>Lead Management</Text>
-      <FlatList
-        data={leads}
-        renderItem={renderLeadItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>Lead Management</Text>
+      {leads.map((lead) => (
+        <View key={lead.leadId} style={styles.leadContainer}>
+          <Text style={styles.leadContact}>{lead.contactDetails}</Text>
+          <Text style={styles.leadInfo}>{lead.relevantInfo}</Text>
+          <Text style={styles.leadAssignedTo}>{lead.assignedTo}</Text>
+          <Text style={styles.leadStatus}>{lead.status}</Text>
+        </View>
+      ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  leadContainer: {
+    marginBottom: 12,
+  },
+  leadContact: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  leadInfo: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  leadAssignedTo: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  leadStatus: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default LeadManagementScreen;
