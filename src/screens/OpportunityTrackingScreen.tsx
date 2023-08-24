@@ -33,6 +33,7 @@ const OpportunityTrackingScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Opportunity Tracking</Text>
       <FlatList
         data={opportunities}
         renderItem={renderOpportunity}
@@ -47,28 +48,33 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
   opportunityContainer: {
     marginBottom: 16,
   },
   opportunityId: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   opportunityLeadId: {
-    fontSize: 14,
-    color: 'gray',
+    fontSize: 16,
   },
   opportunityAssignedTo: {
-    fontSize: 14,
+    fontSize: 16,
   },
   opportunityStatus: {
-    fontSize: 14,
+    fontSize: 16,
+    fontStyle: 'italic',
   },
   opportunityNotes: {
-    fontSize: 14,
+    fontSize: 16,
   },
   opportunityDocuments: {
-    fontSize: 14,
+    fontSize: 16,
   },
 });
 
