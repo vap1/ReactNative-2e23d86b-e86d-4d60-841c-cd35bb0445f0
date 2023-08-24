@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
-import { UserRegistrationRequest, UserRegistrationResponse } from '../api/types';
-import { register } from '../api/api';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { UserRegistrationRequest, UserRegistrationResponse } from '../types/UserTypes';
+import { registerUser } from '../apis/UserApi';
 
 const RegistrationScreen: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -10,8 +10,8 @@ const RegistrationScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
 
-  const handleRegistration = async () => {
-    const registrationRequest: UserRegistrationRequest = {
+  const handleRegister = async () => {
+    const request: UserRegistrationRequest = {
       username,
       password,
       email,
@@ -19,45 +19,65 @@ const RegistrationScreen: React.FC = () => {
     };
 
     try {
-      const response: UserRegistrationResponse = await register(registrationRequest);
+      const response: UserRegistrationResponse = await registerUser(request);
       if (response.success) {
-        Alert.alert('Registration Successful');
-        // Redirect to the next screen or perform any other action
+        // Registration successful, navigate to the next screen
       } else {
-        Alert.alert('Registration Failed', response.errorMessage);
+        // Registration failed, display error message
       }
     } catch (error) {
-      Alert.alert('Error', 'An error occurred during registration');
+      console.error('Error registering user:', error);
+      // Handle error
     }
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
+        style={styles.input}
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
       />
       <TextInput
+        style={styles.input}
         placeholder="Password"
+        secureTextEntry
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
       />
       <TextInput
+        style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
       />
       <TextInput
+        style={styles.input}
         placeholder="Role"
         value={role}
         onChangeText={setRole}
       />
-      <Button title="Register" onPress={handleRegistration} />
+      <Button title="Register" onPress={handleRegister} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+  },
+});
 
 export default RegistrationScreen;
