@@ -30,7 +30,6 @@ const EmployeeList: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Employee List</Text>
       <FlatList
         data={employees}
         renderItem={renderEmployee}
@@ -45,24 +44,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
   employeeContainer: {
     marginBottom: 12,
   },
   employeeName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   employeeContact: {
-    fontSize: 16,
+    fontSize: 14,
+    color: 'gray',
   },
   employeeRole: {
-    fontSize: 16,
-    fontStyle: 'italic',
+    fontSize: 14,
   },
 });
 
