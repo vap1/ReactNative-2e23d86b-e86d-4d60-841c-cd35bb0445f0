@@ -4,42 +4,30 @@ import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { UserRegistrationRequest, UserRegistrationResponse } from '../types/UserTypes';
 import { registerUser } from '../apis/UserApi';
 
-const RegistrationScreen: React.FC = () => {
+interface RegistrationScreenProps {
+  // Add any necessary props here
+}
+
+const RegistrationScreen: React.FC<RegistrationScreenProps> = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
 
-  const handleUsernameChange = (text: string) => {
-    setUsername(text);
-  };
-
-  const handlePasswordChange = (text: string) => {
-    setPassword(text);
-  };
-
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-  };
-
-  const handleRoleChange = (text: string) => {
-    setRole(text);
-  };
-
-  const handleSubmit = async () => {
-    const registrationRequest: UserRegistrationRequest = {
-      username,
-      password,
-      email,
-      role,
-    };
-
+  const handleRegister = async () => {
     try {
-      const response: UserRegistrationResponse = await registerUser(registrationRequest);
+      const request: UserRegistrationRequest = {
+        username,
+        password,
+        email,
+        role,
+      };
+
+      const response: UserRegistrationResponse = await registerUser(request);
       if (response.success) {
-        // Registration successful, navigate to the next screen
+        // Handle successful registration
       } else {
-        // Registration failed, display error message
+        console.error('Error registering user:', response.errorMessage);
       }
     } catch (error) {
       console.error('Error registering user:', error);
@@ -52,28 +40,28 @@ const RegistrationScreen: React.FC = () => {
         style={styles.input}
         placeholder="Username"
         value={username}
-        onChangeText={handleUsernameChange}
+        onChangeText={setUsername}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={handlePasswordChange}
+        onChangeText={setPassword}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={handleEmailChange}
+        onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
         placeholder="Role"
         value={role}
-        onChangeText={handleRoleChange}
+        onChangeText={setRole}
       />
-      <Button title="Submit" onPress={handleSubmit} />
+      <Button title="Register" onPress={handleRegister} />
     </View>
   );
 };
@@ -90,7 +78,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 16,
+    marginBottom: 12,
     paddingHorizontal: 8,
   },
 });
