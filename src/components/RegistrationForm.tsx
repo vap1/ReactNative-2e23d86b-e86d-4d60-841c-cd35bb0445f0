@@ -3,33 +3,17 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 
 interface RegistrationFormProps {
-  onSubmit: (username: string, password: string, email: string, role: string) => void;
+  onRegister: (username: string, password: string, email: string, role: string) => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
 
-  const handleUsernameChange = (text: string) => {
-    setUsername(text);
-  };
-
-  const handlePasswordChange = (text: string) => {
-    setPassword(text);
-  };
-
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-  };
-
-  const handleRoleChange = (text: string) => {
-    setRole(text);
-  };
-
-  const handleSubmit = () => {
-    onSubmit(username, password, email, role);
+  const handleRegister = () => {
+    onRegister(username, password, email, role);
   };
 
   return (
@@ -38,28 +22,28 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
         style={styles.input}
         placeholder="Username"
         value={username}
-        onChangeText={handleUsernameChange}
+        onChangeText={setUsername}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={handlePasswordChange}
+        onChangeText={setPassword}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={handleEmailChange}
+        onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
         placeholder="Role"
         value={role}
-        onChangeText={handleRoleChange}
+        onChangeText={setRole}
       />
-      <Button title="Submit" onPress={handleSubmit} />
+      <Button title="Register" onPress={handleRegister} />
     </View>
   );
 };
@@ -76,7 +60,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 16,
+    marginBottom: 12,
     paddingHorizontal: 8,
   },
 });
