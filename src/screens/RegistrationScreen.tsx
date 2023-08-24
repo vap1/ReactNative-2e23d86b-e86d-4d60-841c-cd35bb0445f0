@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 12,
+    marginBottom: 16,
     paddingHorizontal: 8,
   },
 });
