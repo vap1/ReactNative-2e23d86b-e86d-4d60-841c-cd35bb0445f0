@@ -12,8 +12,10 @@ export interface TaskResponse {
 }
 
 export interface TaskRequest {
+  task: Task;
+}
+
+export interface TaskUpdateRequest {
   taskId: string;
-  assignedTo: string;
-  status: string;
-  comments: string;
+  updatedTask: Task;
 }
