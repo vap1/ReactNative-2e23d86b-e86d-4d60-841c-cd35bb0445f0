@@ -4,7 +4,11 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Lead } from '../types/LeadTypes';
 import { getLeads } from '../apis/LeadApi';
 
-const LeadManagementScreen: React.FC = () => {
+interface LeadManagementScreenProps {
+  // Add any necessary props here
+}
+
+const LeadManagementScreen: React.FC<LeadManagementScreenProps> = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
 
   useEffect(() => {
@@ -32,6 +36,7 @@ const LeadManagementScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Lead Management</Text>
       <FlatList
         data={leads}
         renderItem={renderLead}
@@ -46,25 +51,30 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  leadContainer: {
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 16,
   },
+  leadContainer: {
+    marginBottom: 12,
+  },
   leadId: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   leadContact: {
-    fontSize: 14,
-    color: 'gray',
+    fontSize: 16,
   },
   leadInfo: {
-    fontSize: 14,
+    fontSize: 16,
   },
   leadAssignedTo: {
-    fontSize: 14,
+    fontSize: 16,
   },
   leadStatus: {
-    fontSize: 14,
+    fontSize: 16,
+    fontStyle: 'italic',
   },
 });
 
