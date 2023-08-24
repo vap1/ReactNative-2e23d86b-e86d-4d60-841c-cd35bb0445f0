@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Lead } from '../types/LeadTypes';
 import { getLeads } from '../apis/LeadApi';
 
@@ -20,17 +20,23 @@ const LeadManagementScreen: React.FC = () => {
     }
   };
 
+  const renderLead = ({ item }: { item: Lead }) => (
+    <View style={styles.leadContainer}>
+      <Text style={styles.leadId}>{item.leadId}</Text>
+      <Text style={styles.leadContact}>{item.contactDetails}</Text>
+      <Text style={styles.leadInfo}>{item.relevantInfo}</Text>
+      <Text style={styles.leadAssignedTo}>{item.assignedTo}</Text>
+      <Text style={styles.leadStatus}>{item.status}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lead Management</Text>
-      {leads.map((lead) => (
-        <View key={lead.leadId} style={styles.leadContainer}>
-          <Text style={styles.leadContact}>{lead.contactDetails}</Text>
-          <Text style={styles.leadInfo}>{lead.relevantInfo}</Text>
-          <Text style={styles.leadAssignedTo}>{lead.assignedTo}</Text>
-          <Text style={styles.leadStatus}>{lead.status}</Text>
-        </View>
-      ))}
+      <FlatList
+        data={leads}
+        renderItem={renderLead}
+        keyExtractor={(item) => item.leadId}
+      />
     </View>
   );
 };
@@ -40,29 +46,25 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  leadContainer: {
     marginBottom: 16,
   },
-  leadContainer: {
-    marginBottom: 12,
-  },
-  leadContact: {
-    fontSize: 18,
+  leadId: {
+    fontSize: 16,
     fontWeight: 'bold',
   },
+  leadContact: {
+    fontSize: 14,
+    color: 'gray',
+  },
   leadInfo: {
-    fontSize: 16,
-    marginBottom: 4,
+    fontSize: 14,
   },
   leadAssignedTo: {
-    fontSize: 16,
-    marginBottom: 4,
+    fontSize: 14,
   },
   leadStatus: {
-    fontSize: 16,
-    color: 'gray',
+    fontSize: 14,
   },
 });
 
