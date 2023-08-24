@@ -1,44 +1,54 @@
 
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { Opportunity, OpportunityResponse } from '../types/OpportunityTypes';
-import { addOpportunity } from '../apis/OpportunityApi';
+import { OpportunityRequest } from '../types/OpportunityTypes';
+import { createOpportunity } from '../apis/OpportunityApi';
 
 interface OpportunityFormProps {
-  onOpportunityAdded: (opportunity: Opportunity) => void;
+  onSubmit: () => void;
 }
 
-const OpportunityForm: React.FC<OpportunityFormProps> = ({ onOpportunityAdded }) => {
+const OpportunityForm: React.FC<OpportunityFormProps> = ({ onSubmit }) => {
   const [leadId, setLeadId] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
   const [status, setStatus] = useState('');
   const [notes, setNotes] = useState('');
   const [documents, setDocuments] = useState('');
 
-  const handleAddOpportunity = async () => {
-    try {
-      const opportunity: Opportunity = {
-        opportunityId: '',
-        leadId,
-        assignedTo,
-        status,
-        notes,
-        documents,
-      };
+  const handleLeadIdChange = (text: string) => {
+    setLeadId(text);
+  };
 
-      const response: OpportunityResponse = await addOpportunity({ opportunity });
-      if (response.success) {
-        onOpportunityAdded(opportunity);
-        setLeadId('');
-        setAssignedTo('');
-        setStatus('');
-        setNotes('');
-        setDocuments('');
-      } else {
-        console.error('Error adding opportunity:', response.errorMessage);
-      }
+  const handleAssignedToChange = (text: string) => {
+    setAssignedTo(text);
+  };
+
+  const handleStatusChange = (text: string) => {
+    setStatus(text);
+  };
+
+  const handleNotesChange = (text: string) => {
+    setNotes(text);
+  };
+
+  const handleDocumentsChange = (text: string) => {
+    setDocuments(text);
+  };
+
+  const handleSubmit = async () => {
+    const opportunityRequest: OpportunityRequest = {
+      leadId,
+      assignedTo,
+      status,
+      notes,
+      documents,
+    };
+
+    try {
+      await createOpportunity(opportunityRequest);
+      onSubmit();
     } catch (error) {
-      console.error('Error adding opportunity:', error);
+      console.error('Error creating opportunity:', error);
     }
   };
 
@@ -48,33 +58,33 @@ const OpportunityForm: React.FC<OpportunityFormProps> = ({ onOpportunityAdded })
         style={styles.input}
         placeholder="Lead ID"
         value={leadId}
-        onChangeText={setLeadId}
+        onChangeText={handleLeadIdChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Assigned To"
         value={assignedTo}
-        onChangeText={setAssignedTo}
+        onChangeText={handleAssignedToChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Status"
         value={status}
-        onChangeText={setStatus}
+        onChangeText={handleStatusChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Notes"
         value={notes}
-        onChangeText={setNotes}
+        onChangeText={handleNotesChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Documents"
         value={documents}
-        onChangeText={setDocuments}
+        onChangeText={handleDocumentsChange}
       />
-      <Button title="Add Opportunity" onPress={handleAddOpportunity} />
+      <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
