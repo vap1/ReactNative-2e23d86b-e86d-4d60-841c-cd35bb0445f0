@@ -9,24 +9,27 @@ export const addEmployee = async (request: EmployeeRequest): Promise<EmployeeRes
     const response = await axios.post<EmployeeResponse>(`${BASE_URL}/employees`, request);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.errorMessage || 'An error occurred');
+    console.error('Error adding employee:', error);
+    throw error;
   }
 };
 
-export const updateEmployee = async (employeeId: string, request: EmployeeRequest): Promise<EmployeeResponse> => {
+export const editEmployee = async (employeeId: string, request: EmployeeRequest): Promise<EmployeeResponse> => {
   try {
     const response = await axios.put<EmployeeResponse>(`${BASE_URL}/employees/${employeeId}`, request);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.errorMessage || 'An error occurred');
+    console.error('Error editing employee:', error);
+    throw error;
   }
 };
 
-export const deleteEmployee = async (employeeId: string): Promise<EmployeeResponse> => {
+export const removeEmployee = async (employeeId: string): Promise<EmployeeResponse> => {
   try {
     const response = await axios.delete<EmployeeResponse>(`${BASE_URL}/employees/${employeeId}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.errorMessage || 'An error occurred');
+    console.error('Error removing employee:', error);
+    throw error;
   }
 };
