@@ -30,6 +30,7 @@ const EmployeeManagementScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Employee Management</Text>
       <FlatList
         data={employees}
         renderItem={renderEmployee}
@@ -44,19 +45,24 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
   employeeContainer: {
     marginBottom: 16,
   },
   employeeName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   employeeContact: {
-    fontSize: 14,
-    color: 'gray',
+    fontSize: 16,
   },
   employeeRole: {
-    fontSize: 14,
+    fontSize: 16,
+    fontStyle: 'italic',
   },
 });
 
