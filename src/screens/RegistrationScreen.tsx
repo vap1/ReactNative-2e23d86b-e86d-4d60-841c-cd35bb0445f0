@@ -10,8 +10,24 @@ const RegistrationScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
 
-  const handleRegister = async () => {
-    const request: UserRegistrationRequest = {
+  const handleUsernameChange = (text: string) => {
+    setUsername(text);
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+  };
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+  };
+
+  const handleRoleChange = (text: string) => {
+    setRole(text);
+  };
+
+  const handleSubmit = async () => {
+    const registrationRequest: UserRegistrationRequest = {
       username,
       password,
       email,
@@ -19,7 +35,7 @@ const RegistrationScreen: React.FC = () => {
     };
 
     try {
-      const response: UserRegistrationResponse = await registerUser(request);
+      const response: UserRegistrationResponse = await registerUser(registrationRequest);
       if (response.success) {
         // Registration successful, navigate to the next screen
       } else {
@@ -27,7 +43,6 @@ const RegistrationScreen: React.FC = () => {
       }
     } catch (error) {
       console.error('Error registering user:', error);
-      // Handle error
     }
   };
 
@@ -37,28 +52,28 @@ const RegistrationScreen: React.FC = () => {
         style={styles.input}
         placeholder="Username"
         value={username}
-        onChangeText={setUsername}
+        onChangeText={handleUsernameChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={setPassword}
+        onChangeText={handlePasswordChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleEmailChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Role"
         value={role}
-        onChangeText={setRole}
+        onChangeText={handleRoleChange}
       />
-      <Button title="Register" onPress={handleRegister} />
+      <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
@@ -75,7 +90,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 12,
+    marginBottom: 16,
     paddingHorizontal: 8,
   },
 });
