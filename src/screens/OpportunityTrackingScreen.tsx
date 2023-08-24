@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Opportunity } from '../types/OpportunityTypes';
 import { getOpportunities } from '../apis/OpportunityApi';
 
@@ -20,25 +20,18 @@ const OpportunityTrackingScreen: React.FC = () => {
     }
   };
 
-  const renderOpportunity = ({ item }: { item: Opportunity }) => (
-    <View style={styles.opportunityContainer}>
-      <Text style={styles.opportunityId}>{item.opportunityId}</Text>
-      <Text style={styles.opportunityLeadId}>{item.leadId}</Text>
-      <Text style={styles.opportunityAssignedTo}>{item.assignedTo}</Text>
-      <Text style={styles.opportunityStatus}>{item.status}</Text>
-      <Text style={styles.opportunityNotes}>{item.notes}</Text>
-      <Text style={styles.opportunityDocuments}>{item.documents}</Text>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Opportunity Tracking</Text>
-      <FlatList
-        data={opportunities}
-        renderItem={renderOpportunity}
-        keyExtractor={(item) => item.opportunityId}
-      />
+      {opportunities.map((opportunity) => (
+        <View key={opportunity.opportunityId} style={styles.opportunityContainer}>
+          <Text style={styles.opportunityLeadId}>{opportunity.leadId}</Text>
+          <Text style={styles.opportunityAssignedTo}>{opportunity.assignedTo}</Text>
+          <Text style={styles.opportunityStatus}>{opportunity.status}</Text>
+          <Text style={styles.opportunityNotes}>{opportunity.notes}</Text>
+          <Text style={styles.opportunityDocuments}>{opportunity.documents}</Text>
+        </View>
+      ))}
     </View>
   );
 };
@@ -56,25 +49,22 @@ const styles = StyleSheet.create({
   opportunityContainer: {
     marginBottom: 16,
   },
-  opportunityId: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
   opportunityLeadId: {
     fontSize: 16,
+    fontWeight: 'bold',
   },
   opportunityAssignedTo: {
-    fontSize: 16,
+    fontSize: 14,
+    color: 'gray',
   },
   opportunityStatus: {
-    fontSize: 16,
-    fontStyle: 'italic',
+    fontSize: 14,
   },
   opportunityNotes: {
-    fontSize: 16,
+    fontSize: 14,
   },
   opportunityDocuments: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });
 
