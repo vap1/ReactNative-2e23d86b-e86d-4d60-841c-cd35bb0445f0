@@ -9,8 +9,7 @@ export const createOpportunity = async (request: OpportunityRequest): Promise<Op
     const response = await axios.post<OpportunityResponse>(`${BASE_URL}/opportunities`, request);
     return response.data;
   } catch (error) {
-    console.error('Error creating opportunity:', error);
-    throw error;
+    throw new Error(error.response?.data?.errorMessage || 'An error occurred');
   }
 };
 
@@ -19,7 +18,6 @@ export const updateOpportunity = async (opportunityId: string, request: Opportun
     const response = await axios.put<OpportunityResponse>(`${BASE_URL}/opportunities/${opportunityId}`, request);
     return response.data;
   } catch (error) {
-    console.error('Error updating opportunity:', error);
-    throw error;
+    throw new Error(error.response?.data?.errorMessage || 'An error occurred');
   }
 };
