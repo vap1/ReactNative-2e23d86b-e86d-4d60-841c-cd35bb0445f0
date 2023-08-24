@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   leadContainer: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   leadId: {
     fontSize: 16,
