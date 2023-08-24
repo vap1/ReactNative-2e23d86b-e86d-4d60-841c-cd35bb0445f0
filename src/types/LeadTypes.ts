@@ -13,9 +13,10 @@ export interface LeadResponse {
 }
 
 export interface LeadRequest {
+  lead: Lead;
+}
+
+export interface LeadUpdateRequest {
   leadId: string;
-  contactDetails: string;
-  relevantInfo: string;
-  assignedTo: string;
-  status: string;
+  updatedLead: Lead;
 }
