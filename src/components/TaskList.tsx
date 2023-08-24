@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   taskContainer: {
-    marginBottom: 12,
+    marginBottom: 16,
   },
   taskId: {
     fontSize: 16,
