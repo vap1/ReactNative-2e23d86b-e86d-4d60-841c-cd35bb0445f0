@@ -1,14 +1,9 @@
 
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
 
 interface LeadFormProps {
-  onSubmit: (leadData: LeadData) => void;
-}
-
-interface LeadData {
-  contactDetails: string;
-  relevantInfo: string;
+  onSubmit: (lead: Lead) => void;
 }
 
 const LeadForm: React.FC<LeadFormProps> = ({ onSubmit }) => {
@@ -16,25 +11,26 @@ const LeadForm: React.FC<LeadFormProps> = ({ onSubmit }) => {
   const [relevantInfo, setRelevantInfo] = useState('');
 
   const handleFormSubmit = () => {
-    if (contactDetails && relevantInfo) {
-      const leadData: LeadData = {
-        contactDetails,
-        relevantInfo,
-      };
-      onSubmit(leadData);
-    } else {
-      Alert.alert('Error', 'Please fill in all the fields');
-    }
+    const lead: Lead = {
+      leadId: '',
+      contactDetails,
+      relevantInfo,
+      assignedTo: '',
+      status: '',
+    };
+    onSubmit(lead);
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
+        style={styles.input}
         placeholder="Contact Details"
         value={contactDetails}
         onChangeText={setContactDetails}
       />
       <TextInput
+        style={styles.input}
         placeholder="Relevant Info"
         value={relevantInfo}
         onChangeText={setRelevantInfo}
@@ -43,5 +39,22 @@ const LeadForm: React.FC<LeadFormProps> = ({ onSubmit }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+  },
+});
 
 export default LeadForm;
