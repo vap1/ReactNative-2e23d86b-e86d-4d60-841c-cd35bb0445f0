@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   employeeContainer: {
-    marginBottom: 12,
+    marginBottom: 16,
   },
   employeeName: {
     fontSize: 16,
