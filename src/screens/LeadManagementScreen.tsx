@@ -32,6 +32,7 @@ const LeadManagementScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Lead Management</Text>
       <FlatList
         data={leads}
         renderItem={renderLead}
@@ -46,25 +47,30 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
   leadContainer: {
     marginBottom: 16,
   },
   leadId: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   leadContact: {
-    fontSize: 14,
-    color: 'gray',
+    fontSize: 16,
   },
   leadInfo: {
-    fontSize: 14,
+    fontSize: 16,
   },
   leadAssignedTo: {
-    fontSize: 14,
+    fontSize: 16,
   },
   leadStatus: {
-    fontSize: 14,
+    fontSize: 16,
+    fontStyle: 'italic',
   },
 });
 
