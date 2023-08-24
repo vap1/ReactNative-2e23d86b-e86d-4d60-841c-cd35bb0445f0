@@ -4,7 +4,11 @@ import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { UserRegistrationRequest, UserRegistrationResponse } from '../types/UserTypes';
 import { registerUser } from '../apis/UserApi';
 
-const RegistrationScreen: React.FC = () => {
+interface RegistrationScreenProps {
+  // Add any props if needed
+}
+
+const RegistrationScreen: React.FC<RegistrationScreenProps> = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
