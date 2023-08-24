@@ -31,7 +31,6 @@ const TaskList: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Task List</Text>
       <FlatList
         data={tasks}
         renderItem={renderTask}
@@ -46,29 +45,22 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  taskContainer: {
     marginBottom: 16,
   },
-  taskContainer: {
-    marginBottom: 12,
-  },
   taskId: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   taskAssignedTo: {
-    fontSize: 16,
-    marginBottom: 4,
+    fontSize: 14,
+    color: 'gray',
   },
   taskStatus: {
-    fontSize: 16,
-    marginBottom: 4,
+    fontSize: 14,
   },
   taskComments: {
-    fontSize: 16,
-    color: 'gray',
+    fontSize: 14,
   },
 });
 
