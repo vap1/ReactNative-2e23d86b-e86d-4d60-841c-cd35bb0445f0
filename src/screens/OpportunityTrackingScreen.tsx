@@ -1,11 +1,11 @@
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { OpportunityDetails } from '../api/types';
-import { getOpportunities } from '../api/opportunities';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Opportunity } from '../types/OpportunityTypes';
+import { getOpportunities } from '../apis/OpportunityApi';
 
 const OpportunityTrackingScreen: React.FC = () => {
-  const [opportunities, setOpportunities] = useState<OpportunityDetails[]>([]);
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
 
   useEffect(() => {
     fetchOpportunities();
@@ -13,37 +13,62 @@ const OpportunityTrackingScreen: React.FC = () => {
 
   const fetchOpportunities = async () => {
     try {
-      const opportunitiesData = await getOpportunities();
-      setOpportunities(opportunitiesData);
+      const response = await getOpportunities();
+      setOpportunities(response);
     } catch (error) {
       console.error('Error fetching opportunities:', error);
     }
   };
 
-  const renderOpportunityItem = ({ item }: { item: OpportunityDetails }) => (
-    <TouchableOpacity onPress={() => handleOpportunityPress(item)}>
-      <View>
-        <Text>{item.opportunityId}</Text>
-        <Text>{item.status}</Text>
-        {/* Render other opportunity details */}
-      </View>
-    </TouchableOpacity>
-  );
-
-  const handleOpportunityPress = (opportunity: OpportunityDetails) => {
-    // Handle opportunity press action
-  };
-
   return (
-    <View>
-      <Text>Opportunity Tracking</Text>
-      <FlatList
-        data={opportunities}
-        renderItem={renderOpportunityItem}
-        keyExtractor={(item) => item.opportunityId}
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>Opportunity Tracking</Text>
+      {opportunities.map((opportunity) => (
+        <View key={opportunity.opportunityId} style={styles.opportunityContainer}>
+          <Text style={styles.opportunityLeadId}>{opportunity.leadId}</Text>
+          <Text style={styles.opportunityAssignedTo}>{opportunity.assignedTo}</Text>
+          <Text style={styles.opportunityStatus}>{opportunity.status}</Text>
+          <Text style={styles.opportunityNotes}>{opportunity.notes}</Text>
+          <Text style={styles.opportunityDocuments}>{opportunity.documents}</Text>
+        </View>
+      ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  opportunityContainer: {
+    marginBottom: 12,
+  },
+  opportunityLeadId: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  opportunityAssignedTo: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  opportunityStatus: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  opportunityNotes: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  opportunityDocuments: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default OpportunityTrackingScreen;
