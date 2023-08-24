@@ -1,24 +1,49 @@
 
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { LeadRequest } from '../types/LeadTypes';
+import { addLead } from '../apis/LeadApi';
 
 interface LeadFormProps {
-  onSubmit: (lead: Lead) => void;
+  onSubmit: () => void;
 }
 
 const LeadForm: React.FC<LeadFormProps> = ({ onSubmit }) => {
   const [contactDetails, setContactDetails] = useState('');
   const [relevantInfo, setRelevantInfo] = useState('');
+  const [assignedTo, setAssignedTo] = useState('');
+  const [status, setStatus] = useState('');
 
-  const handleFormSubmit = () => {
-    const lead: Lead = {
-      leadId: '',
+  const handleContactDetailsChange = (text: string) => {
+    setContactDetails(text);
+  };
+
+  const handleRelevantInfoChange = (text: string) => {
+    setRelevantInfo(text);
+  };
+
+  const handleAssignedToChange = (text: string) => {
+    setAssignedTo(text);
+  };
+
+  const handleStatusChange = (text: string) => {
+    setStatus(text);
+  };
+
+  const handleSubmit = async () => {
+    const leadRequest: LeadRequest = {
       contactDetails,
       relevantInfo,
-      assignedTo: '',
-      status: '',
+      assignedTo,
+      status,
     };
-    onSubmit(lead);
+
+    try {
+      await addLead(leadRequest);
+      onSubmit();
+    } catch (error) {
+      console.error('Error adding lead:', error);
+    }
   };
 
   return (
@@ -27,15 +52,27 @@ const LeadForm: React.FC<LeadFormProps> = ({ onSubmit }) => {
         style={styles.input}
         placeholder="Contact Details"
         value={contactDetails}
-        onChangeText={setContactDetails}
+        onChangeText={handleContactDetailsChange}
       />
       <TextInput
         style={styles.input}
         placeholder="Relevant Info"
         value={relevantInfo}
-        onChangeText={setRelevantInfo}
+        onChangeText={handleRelevantInfoChange}
       />
-      <Button title="Submit" onPress={handleFormSubmit} />
+      <TextInput
+        style={styles.input}
+        placeholder="Assigned To"
+        value={assignedTo}
+        onChangeText={handleAssignedToChange}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Status"
+        value={status}
+        onChangeText={handleStatusChange}
+      />
+      <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
@@ -52,7 +89,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 12,
+    marginBottom: 16,
     paddingHorizontal: 8,
   },
 });
