@@ -1,46 +1,35 @@
 
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { LeadRequest } from '../types/LeadTypes';
+import { Lead, LeadResponse } from '../types/LeadTypes';
 import { addLead } from '../apis/LeadApi';
 
 interface LeadFormProps {
-  onSubmit: () => void;
+  onLeadAdded: (lead: Lead) => void;
 }
 
-const LeadForm: React.FC<LeadFormProps> = ({ onSubmit }) => {
+const LeadForm: React.FC<LeadFormProps> = ({ onLeadAdded }) => {
   const [contactDetails, setContactDetails] = useState('');
   const [relevantInfo, setRelevantInfo] = useState('');
-  const [assignedTo, setAssignedTo] = useState('');
-  const [status, setStatus] = useState('');
 
-  const handleContactDetailsChange = (text: string) => {
-    setContactDetails(text);
-  };
-
-  const handleRelevantInfoChange = (text: string) => {
-    setRelevantInfo(text);
-  };
-
-  const handleAssignedToChange = (text: string) => {
-    setAssignedTo(text);
-  };
-
-  const handleStatusChange = (text: string) => {
-    setStatus(text);
-  };
-
-  const handleSubmit = async () => {
-    const leadRequest: LeadRequest = {
-      contactDetails,
-      relevantInfo,
-      assignedTo,
-      status,
-    };
-
+  const handleAddLead = async () => {
     try {
-      await addLead(leadRequest);
-      onSubmit();
+      const lead: Lead = {
+        leadId: '',
+        contactDetails,
+        relevantInfo,
+        assignedTo: '',
+        status: '',
+      };
+
+      const response: LeadResponse = await addLead({ lead });
+      if (response.success) {
+        onLeadAdded(lead);
+        setContactDetails('');
+        setRelevantInfo('');
+      } else {
+        console.error('Error adding lead:', response.errorMessage);
+      }
     } catch (error) {
       console.error('Error adding lead:', error);
     }
@@ -52,27 +41,15 @@ const LeadForm: React.FC<LeadFormProps> = ({ onSubmit }) => {
         style={styles.input}
         placeholder="Contact Details"
         value={contactDetails}
-        onChangeText={handleContactDetailsChange}
+        onChangeText={setContactDetails}
       />
       <TextInput
         style={styles.input}
         placeholder="Relevant Info"
         value={relevantInfo}
-        onChangeText={handleRelevantInfoChange}
+        onChangeText={setRelevantInfo}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Assigned To"
-        value={assignedTo}
-        onChangeText={handleAssignedToChange}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Status"
-        value={status}
-        onChangeText={handleStatusChange}
-      />
-      <Button title="Submit" onPress={handleSubmit} />
+      <Button title="Add Lead" onPress={handleAddLead} />
     </View>
   );
 };
@@ -89,7 +66,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 16,
+    marginBottom: 12,
     paddingHorizontal: 8,
   },
 });
