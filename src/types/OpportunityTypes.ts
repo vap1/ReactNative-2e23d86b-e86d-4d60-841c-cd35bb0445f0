@@ -14,10 +14,10 @@ export interface OpportunityResponse {
 }
 
 export interface OpportunityRequest {
-  opportunity: Opportunity;
-}
-
-export interface OpportunityUpdateRequest {
   opportunityId: string;
-  updatedOpportunity: Opportunity;
+  leadId: string;
+  assignedTo: string;
+  status: string;
+  notes: string;
+  documents: string;
 }
