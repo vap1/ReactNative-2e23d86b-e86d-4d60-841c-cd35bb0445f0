@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { Employee } from '../types';
-import { getEmployees } from '../api';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { Employee } from '../types/EmployeeTypes';
+import { getEmployees } from '../apis/EmployeeApi';
 
 const EmployeeList: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -14,23 +14,23 @@ const EmployeeList: React.FC = () => {
   const fetchEmployees = async () => {
     try {
       const response = await getEmployees();
-      setEmployees(response.data);
+      setEmployees(response);
     } catch (error) {
       console.error('Error fetching employees:', error);
     }
   };
 
   const renderEmployee = ({ item }: { item: Employee }) => (
-    <View>
-      <Text>{item.name}</Text>
-      <Text>{item.role}</Text>
-      <Text>{item.contactInfo}</Text>
+    <View style={styles.employeeContainer}>
+      <Text style={styles.employeeName}>{item.name}</Text>
+      <Text style={styles.employeeContact}>{item.contactInfo}</Text>
+      <Text style={styles.employeeRole}>{item.role}</Text>
     </View>
   );
 
   return (
-    <View>
-      <Text>Employee List</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Employee List</Text>
       <FlatList
         data={employees}
         renderItem={renderEmployee}
@@ -39,5 +39,32 @@ const EmployeeList: React.FC = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  employeeContainer: {
+    marginBottom: 12,
+  },
+  employeeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  employeeContact: {
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  employeeRole: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default EmployeeList;
