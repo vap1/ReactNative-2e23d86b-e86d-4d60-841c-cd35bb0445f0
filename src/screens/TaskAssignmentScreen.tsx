@@ -4,7 +4,11 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Task } from '../types/TaskTypes';
 import { getTasks } from '../apis/TaskApi';
 
-const TaskAssignmentScreen: React.FC = () => {
+interface TaskAssignmentScreenProps {
+  // Add any necessary props here
+}
+
+const TaskAssignmentScreen: React.FC<TaskAssignmentScreenProps> = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
@@ -31,6 +35,7 @@ const TaskAssignmentScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Task Assignment</Text>
       <FlatList
         data={tasks}
         renderItem={renderTask}
@@ -45,22 +50,27 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  taskContainer: {
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 16,
   },
+  taskContainer: {
+    marginBottom: 12,
+  },
   taskId: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   taskAssignedTo: {
-    fontSize: 14,
-    color: 'gray',
+    fontSize: 16,
   },
   taskStatus: {
-    fontSize: 14,
+    fontSize: 16,
+    fontStyle: 'italic',
   },
   taskComments: {
-    fontSize: 14,
+    fontSize: 16,
   },
 });
 
