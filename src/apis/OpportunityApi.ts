@@ -1,57 +1,25 @@
 
 import axios from 'axios';
+import { Opportunity, OpportunityResponse, OpportunityRequest } from '../types/OpportunityTypes';
 
-const BASE_URL = 'https://api.example.com'; // Replace with your actual API base URL
+const BASE_URL = 'https://api.example.com'; // Replace with your API base URL
 
-export interface Opportunity {
-  opportunityId: string;
-  leadId: string;
-  assignedTo: string;
-  status: string;
-  notes: string;
-  documents: string;
-}
-
-export interface CreateOpportunityRequest {
-  leadId: string;
-  assignedTo: string;
-  status: string;
-  notes: string;
-  documents: string;
-}
-
-export interface UpdateOpportunityRequest {
-  opportunityId: string;
-  assignedTo: string;
-  status: string;
-  notes: string;
-  documents: string;
-}
-
-export async function createOpportunity(
-  request: CreateOpportunityRequest
-): Promise<Opportunity> {
+export const createOpportunity = async (request: OpportunityRequest): Promise<OpportunityResponse> => {
   try {
-    const response = await axios.post<Opportunity>(
-      `${BASE_URL}/opportunities`,
-      request
-    );
+    const response = await axios.post<OpportunityResponse>(`${BASE_URL}/opportunities`, request);
     return response.data;
   } catch (error) {
-    throw new Error('Failed to create opportunity');
+    console.error('Error creating opportunity:', error);
+    throw error;
   }
-}
+};
 
-export async function updateOpportunity(
-  request: UpdateOpportunityRequest
-): Promise<Opportunity> {
+export const updateOpportunity = async (opportunityId: string, request: OpportunityRequest): Promise<OpportunityResponse> => {
   try {
-    const response = await axios.put<Opportunity>(
-      `${BASE_URL}/opportunities/${request.opportunityId}`,
-      request
-    );
+    const response = await axios.put<OpportunityResponse>(`${BASE_URL}/opportunities/${opportunityId}`, request);
     return response.data;
   } catch (error) {
-    throw new Error('Failed to update opportunity');
+    console.error('Error updating opportunity:', error);
+    throw error;
   }
-}
+};
