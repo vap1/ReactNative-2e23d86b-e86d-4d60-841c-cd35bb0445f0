@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Employee } from '../types/EmployeeTypes';
 import { getEmployees } from '../apis/EmployeeApi';
 
@@ -20,22 +20,16 @@ const EmployeeManagementScreen: React.FC = () => {
     }
   };
 
-  const renderEmployee = ({ item }: { item: Employee }) => (
-    <View style={styles.employeeContainer}>
-      <Text style={styles.employeeName}>{item.name}</Text>
-      <Text style={styles.employeeContact}>{item.contactInfo}</Text>
-      <Text style={styles.employeeRole}>{item.role}</Text>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Employee Management</Text>
-      <FlatList
-        data={employees}
-        renderItem={renderEmployee}
-        keyExtractor={(item) => item.employeeId}
-      />
+      {employees.map((employee) => (
+        <View key={employee.employeeId} style={styles.employeeContainer}>
+          <Text style={styles.employeeName}>{employee.name}</Text>
+          <Text style={styles.employeeContact}>{employee.contactInfo}</Text>
+          <Text style={styles.employeeRole}>{employee.role}</Text>
+        </View>
+      ))}
     </View>
   );
 };
@@ -54,15 +48,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   employeeName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   employeeContact: {
-    fontSize: 16,
+    fontSize: 14,
+    color: 'gray',
   },
   employeeRole: {
-    fontSize: 16,
-    fontStyle: 'italic',
+    fontSize: 14,
   },
 });
 
