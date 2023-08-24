@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Task } from '../types/TaskTypes';
 import { getTasks } from '../apis/TaskApi';
 
@@ -20,23 +20,16 @@ const TaskAssignmentScreen: React.FC = () => {
     }
   };
 
-  const renderTask = ({ item }: { item: Task }) => (
-    <View style={styles.taskContainer}>
-      <Text style={styles.taskId}>{item.taskId}</Text>
-      <Text style={styles.taskAssignedTo}>{item.assignedTo}</Text>
-      <Text style={styles.taskStatus}>{item.status}</Text>
-      <Text style={styles.taskComments}>{item.comments}</Text>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Task Assignment</Text>
-      <FlatList
-        data={tasks}
-        renderItem={renderTask}
-        keyExtractor={(item) => item.taskId}
-      />
+      {tasks.map((task) => (
+        <View key={task.taskId} style={styles.taskContainer}>
+          <Text style={styles.taskAssignedTo}>{task.assignedTo}</Text>
+          <Text style={styles.taskStatus}>{task.status}</Text>
+          <Text style={styles.taskComments}>{task.comments}</Text>
+        </View>
+      ))}
     </View>
   );
 };
@@ -54,19 +47,16 @@ const styles = StyleSheet.create({
   taskContainer: {
     marginBottom: 16,
   },
-  taskId: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
   taskAssignedTo: {
     fontSize: 16,
+    fontWeight: 'bold',
   },
   taskStatus: {
-    fontSize: 16,
-    fontStyle: 'italic',
+    fontSize: 14,
+    color: 'gray',
   },
   taskComments: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });
 
