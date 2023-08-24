@@ -7,11 +7,15 @@ export interface Employee {
   permissions: string;
 }
 
-export interface EmployeeDetails {
-  // Define the fields for employee details here
-}
-
 export interface EmployeeResponse {
   success: boolean;
   errorMessage?: string;
+}
+
+export interface EmployeeRequest {
+  employeeId: string;
+  name: string;
+  contactInfo: string;
+  role: string;
+  permissions: string;
 }
