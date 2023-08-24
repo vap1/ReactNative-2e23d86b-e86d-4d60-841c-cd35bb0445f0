@@ -9,7 +9,8 @@ export const addLead = async (request: LeadRequest): Promise<LeadResponse> => {
     const response = await axios.post<LeadResponse>(`${BASE_URL}/leads`, request);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.errorMessage || 'An error occurred');
+    console.error('Error adding lead:', error);
+    throw error;
   }
 };
 
@@ -18,6 +19,7 @@ export const updateLead = async (leadId: string, request: LeadRequest): Promise<
     const response = await axios.put<LeadResponse>(`${BASE_URL}/leads/${leadId}`, request);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.errorMessage || 'An error occurred');
+    console.error('Error updating lead:', error);
+    throw error;
   }
 };
